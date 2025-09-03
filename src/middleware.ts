@@ -6,6 +6,10 @@ const JWT_SECRET = new TextEncoder().encode(process.env.JWT_SECRET as string);
 export async function middleware(req: NextRequest) {
   try {
     // ✅ Get your custom JWT instead of NextAuth session token
+    console.log('middle ware req came')
+      console.log('🚀 MIDDLEWARE HIT!');
+  console.log('📍 Path:', req.nextUrl.pathname);
+  console.log('🌐 Full URL:', req.url);
     const token =
       req.cookies.get("custom-token")?.value || // from website stored in cookie
       req.headers.get("Authorization")?.replace("Bearer ", ""); // Or from mobile API header
@@ -43,10 +47,11 @@ export async function middleware(req: NextRequest) {
 export const config = {
   matcher: [
     "/courses/:path*",
-    "/api/:path*",
     "/home",
-    "/vdo",
+    "/vdo/:path*",
     "/bounty",
     "/dashboard/:path*",
+        "/api/((?!auth).)*",  // This matches /api/* but excludes /api/auth/*
+     "/protect/:path*",
   ],
 };
