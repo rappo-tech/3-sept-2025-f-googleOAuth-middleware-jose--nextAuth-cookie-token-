@@ -1,0 +1,44 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model AllInstaUser {
+  id        String    @id @default(uuid())
+  createdAt DateTime  @default(now())
+  userName  String
+  allMsgs   AllMsgs[]
+  allPosts  AllPost[]
+  allImgs   AllImgs[]
+}
+
+model AllMsgs {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  userId    String
+  msg       String
+  sender    String
+  user      AllInstaUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model AllPost {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  userId    String
+  post      String
+  user      AllInstaUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+model AllImgs {
+  id        String       @id @default(uuid())
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  userId    String
+  publicUrl String
+  user      AllInstaUser @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
