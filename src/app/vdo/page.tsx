@@ -12,12 +12,14 @@ const [totalDuration,setTotalDuration]=useState<number>(0)
 const [progress,setProgress]=useState<number>(0)
 const [isOn,setIsOn]=useState<boolean>(false)
 const[userName,setUserName]=useState<string>('')
+const[status,setStatus]=useState<string>('')
 
 
 const saveBackend=async()=>{
 const response=await axios.post('/protect/createPost',{userName},{headers:{'Content-Type':"application/json"}})
 if(response.status===201){
 setUserName('')
+setStatus(response.data)
 }
 }
 
@@ -26,6 +28,7 @@ const saveBackend2=async()=>{
 const response=await axios.post('/protect/secondPost',{userName},{headers:{'Content-Type':"application/json"}})
 if(response.status===201){
 setUserName('')
+setStatus(response.data)
 }
 }
 
@@ -83,6 +86,7 @@ setIsOn(!isOn)
 
     return (<div>
 <h1> vdo page </h1>
+<p>warning:{status}</p>
 
 <input
 type="text"

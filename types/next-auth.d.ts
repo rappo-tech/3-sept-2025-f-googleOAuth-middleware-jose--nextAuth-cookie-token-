@@ -1,4 +1,4 @@
-import  { DefaultSession, DefaultUser } from "next-auth";
+import { DefaultSession, DefaultUser } from "next-auth";
 
 declare module "next-auth" {
   interface Session {
@@ -23,4 +23,11 @@ declare module "next-auth" {
     name?: string;
     customToken?: string; // ✅ store token in JWT too
   }
+}
+
+// ✅ JWT Error types for better type safety
+export interface JWTError extends Error {
+  code?: string;
+  claim?: string;
+  reason?: string;
 }
