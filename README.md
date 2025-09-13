@@ -1,9 +1,37 @@
-1.how nextAuth middleware works ?? 
+/*
+//1.session token==nextAuth creates it using nextAuth_secret
+//2.customToken=== we create it manually using jose with jwt_scerte 
+then we put customtoken in session token of nextAuth and that 
+customToken in /inspect/application/cookies/
+{...custom-token:customToken} in cookies manuallly in page.tsx 
 
-FLOW ---->user go to page.tsx(signIn('google'),signOut,useSession)==>google Oauth popup then user sign==>google send TAC to nextauth==>next auth sedn TAC to google google then send userId,name,img,==> next auth encryot theses into {userId,name ,img } thats we aclled sesssion token===>but in auth option we created our own  token using jose and .env JWT_SECRET ===>then  we put that token into session token along with id,anme ,img now session tokena has {userId,name,img,cutomtoken: jose token}==> then nextauth automatically put that session token into browser/appplication/cookies---> a kind of db but in broweswer like localstorage ===>after thhat userLogin===>save toekn in broswer ==> if broswer make any req ==> along with api payload, browser auotmatically sedn the session token ===>but that token not hit direct api rather hit middleware.ts  file where from website=> req.cookies.get("custom-token")?. 
+  // ✅ Set custom token as cookie when session exists
+  useEffect(() => {
+    if (session?.user?.customToken) {
+      console.log('🍪 Setting custom token cookie');
+      document.cookie = `custom-token=${session.user.customToken}; path=/; max-age=3600; samesite=lax`;
+    }
+  }, [session])
 
-for mobile       req.headers.get("Authorization")?.replace("Bearer ", ""); 
-we bring the token from==>website/inspect/application/cookies/sessionObjcet. and verify  with   jose 
+then in middleware we take custom-token from /inspect/application/
+cookies db of browser and verify with our jwt_secert 
+
+jwt .verify(req.cookies('custom-token),jwt_secret)
+
+
+optional:- we can also verify nextauth sessiontoken using 
+nextAuth_secert 
+
+*/
+
+
+
+
+
+
+
+
+
 
 
 
